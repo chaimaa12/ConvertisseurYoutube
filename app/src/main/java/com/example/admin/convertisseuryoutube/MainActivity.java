@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.admin.convertisseuryoutube.model.DownloadJsonTask;
 import com.example.admin.convertisseuryoutube.model.Music;
@@ -53,14 +54,17 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 if(!eTlink.getText().toString().equals("")){
                     Convertmp3(eTlink.getText().toString());
+                    startActivity(new Intent(MainActivity.this, ConversionActivity.class));
+                    eTlink.setText("");
+                }else{
+                    Toast.makeText(getApplicationContext(), "You have to paste a YouTube link",
+                            Toast.LENGTH_LONG).show();
                 }
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(eTlink.getWindowToken(), 0);
-                startActivity(new Intent(MainActivity.this, ConversionActivity.class));
             }
         });
     }
-
 
     private void Convertmp3(String textSearch){
         final ProgressDialog spinner = new ProgressDialog(this);
