@@ -3,6 +3,9 @@ package com.example.admin.convertisseuryoutube;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +21,6 @@ import com.example.admin.convertisseuryoutube.model.Music;
 
 public class ConversionActivity extends Activity {
 
-    private Button btnRetour;
     private Button btnDownload;
     private EditText editText;
     private Music currentMusic;
@@ -28,25 +30,33 @@ public class ConversionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.conversion_layout);
-        btnRetour = (Button) findViewById(R.id.btnBack);
         btnDownload = (Button) findViewById(R.id.btnDownload);
         titleVideo = (TextView) findViewById(R.id.titleVideo);
 
-
-        btnRetour.setOnClickListener(new View.OnClickListener() {
+        btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
-                //editText.setText("");
+                // début du télechargement
             }
         });
 
-        btnDownload.setOnClickListener(new View.OnClickListener() {
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public void onClick(View v) {
 
                 DownloadLinkTask linkTask = new DownloadLinkTask(currentMusic.getLink());
                 linkTask.execute(currentMusic.getLink());                // début du télechargement
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.action_home:
+                        startActivity(new Intent(ConversionActivity.this, MainActivity.class));
+                        break;
+                    case R.id.action_account:
+                        startActivity(new Intent(ConversionActivity.this, MainActivity.class));
+                        break;
+                }
+                return true;
             }
         });
 

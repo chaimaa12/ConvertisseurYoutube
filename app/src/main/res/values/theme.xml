@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="MonTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/background</item>
+        <item name="android:windowBackground">@drawable/background2</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
