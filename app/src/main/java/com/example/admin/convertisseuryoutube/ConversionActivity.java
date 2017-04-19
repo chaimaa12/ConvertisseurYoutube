@@ -25,6 +25,7 @@ public class ConversionActivity extends Activity {
     private EditText editText;
     private Music currentMusic;
     private TextView titleVideo;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,21 +33,21 @@ public class ConversionActivity extends Activity {
         setContentView(R.layout.conversion_layout);
         btnDownload = (Button) findViewById(R.id.btnDownload);
         titleVideo = (TextView) findViewById(R.id.titleVideo);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
 
         btnDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // début du télechargement
+                @Override
+                public void onClick(View v) {
+
+                    DownloadLinkTask linkTask = new DownloadLinkTask(currentMusic.getLink());
+                    linkTask.execute(currentMusic.getLink());
+                    // début du télechargement
             }
         });
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public void onClick(View v) {
 
-                DownloadLinkTask linkTask = new DownloadLinkTask(currentMusic.getLink());
-                linkTask.execute(currentMusic.getLink());                // début du télechargement
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+               // début du télechargement
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.action_home:
