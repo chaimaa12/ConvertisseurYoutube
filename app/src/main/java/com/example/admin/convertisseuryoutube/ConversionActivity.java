@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.admin.convertisseuryoutube.model.DownloadLinkTask;
 import com.example.admin.convertisseuryoutube.model.Music;
 
 /**
@@ -43,7 +44,9 @@ public class ConversionActivity extends Activity {
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // début du télechargement
+
+                DownloadLinkTask linkTask = new DownloadLinkTask(currentMusic.getLink());
+                linkTask.execute(currentMusic.getLink());                // début du télechargement
             }
         });
 
