@@ -15,6 +15,10 @@ public class Music implements Serializable {
     public Music() {
     }
 
+    public String getTitle() {
+        return name;
+    }
+
     public Music(String name, String lenght, String link) {
         this.name = name;
         this.lenght = lenght;

@@ -28,14 +28,16 @@ import java.util.ArrayList;
 
 
 public class DownloadJsonTask extends AsyncTask<String, Void, String>{
-    private TextView testviewlink;
     private ProgressDialog spinner;
     private Context context;
+    private IOListener listener;
 
-    public DownloadJsonTask(Context context, ProgressDialog spinner) {
-        this.testviewlink = testviewlink;
+
+
+    public DownloadJsonTask(Context context, ProgressDialog spinner, IOListener listener) {
         this.spinner = spinner;
         this.context = context;
+        this.listener = listener;
     }
 
     @Override
@@ -57,11 +59,13 @@ public class DownloadJsonTask extends AsyncTask<String, Void, String>{
             m.setName(jsonObject.getString("title"));
             m.setLenght(jsonObject.getString("length"));
             m.setLink(jsonObject.getString("link"));
+            listener.IOListener(m);
             spinner.dismiss();
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
 
     private String download_xmldom(String url){
         String result="";

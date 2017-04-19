@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.admin.convertisseuryoutube.model.DownloadJsonTask;
+import com.example.admin.convertisseuryoutube.model.IOListener;
 import com.example.admin.convertisseuryoutube.model.Music;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class MainActivity extends Activity {
 
     private Button btnConvert;
     private EditText eTlink;
+    private Music currentMusic;
 
     private static final String URL_MUSIC_CONVERT = "http://www.youtubeinmp3.com/fetch/?format=JSON&video=";
 
@@ -58,7 +60,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 if(!eTlink.getText().toString().equals("")){
                     Convertmp3(eTlink.getText().toString());
-                    startActivity(new Intent(MainActivity.this, ConversionActivity.class));
+                    //startActivity(new Intent(MainActivity.this, ConversionActivity.class));
                     eTlink.setText("");
                 }else{
                     Toast.makeText(getApplicationContext(), "You have to paste a YouTube link",
@@ -96,8 +98,17 @@ public class MainActivity extends Activity {
         spinner.show();
 
         String url= URL_MUSIC_CONVERT+ textSearch.replace(" ", "+");
-        DownloadJsonTask jsonTask = new DownloadJsonTask(this, spinner);
+        DownloadJsonTask jsonTask = new DownloadJsonTask(this, spinner, new IOListener() {
+            @Override
+            public void IOListener(Music m) {
+                Intent videoIntent = new Intent(MainActivity.this, ConversionActivity.class);
+                videoIntent.putExtra("videoConverted", m);
+                startActivity(videoIntent);
+            }
+        });
         jsonTask.execute(url);
     }
+
+
 }
 
