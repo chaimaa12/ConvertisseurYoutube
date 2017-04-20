@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        checkPermission();
         eTlink = (EditText) findViewById(R.id.eTlink);
 
         eTlink = (EditText) findViewById(R.id.eTlink);
@@ -123,20 +124,19 @@ public class MainActivity extends Activity {
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
                     ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)){
 
-                new AlertDialog.Builder(this).setTitle("Access permission").setMessage("L'application a besoin de connaitre votre position et d'accéder à vos contacts pour les rejoindre.")
-                        .setPositiveButton("Autoriser", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(this).setTitle("Access permission").setMessage("The App needs to access your local storage to download the file")
+                        .setPositiveButton("Allow", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                                ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.INTERNET}, 1);
 
                             }
                         }).create().show();
-            }ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            }ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.INTERNET}, 1);
 
         }
 
     }
-
 
 }
 
