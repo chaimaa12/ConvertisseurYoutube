@@ -71,12 +71,14 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
 
                 if(!eTlink.getText().toString().equals("")){
-
                     String lien = eTlink.getText().toString();
-                    String[] parts = lien.split("https://youtu.be/");
-                    String idVideo  = parts[1].trim();
-                    Convertmp3(URL_FINAL+idVideo);
-                    Log.d("ON EST LA", idVideo);
+                    if (lien.matches("https://youtu.be/(.*)")){
+                        String[] parts = lien.split("https://youtu.be/");
+                        String idVideo  = parts[1].trim();
+                        Convertmp3(URL_FINAL+idVideo);
+                    }else{
+                        Convertmp3(eTlink.getText().toString());
+                    }
                     //startActivity(new Intent(MainActivity.this, ConversionActivity.class));
                     eTlink.setText("");
                 }else{

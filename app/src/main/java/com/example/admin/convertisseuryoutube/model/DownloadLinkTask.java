@@ -31,6 +31,7 @@ public class DownloadLinkTask extends AsyncTask<String, Void, Void> {
 
    private Music music;
    private String path;
+    private static  DataInputStream stream;
 
     public DownloadLinkTask(Music music, String path) {
         this.music = music;
@@ -45,10 +46,13 @@ public class DownloadLinkTask extends AsyncTask<String, Void, Void> {
             URLConnection conn = aUrl.openConnection();
             int contentLength = conn.getContentLength();
 
-            DataInputStream stream = new DataInputStream(aUrl.openStream());
+            stream = new DataInputStream(aUrl.openStream());
             byte[] buffer = new byte[contentLength];
             stream.readFully(buffer);
-            stream.close();
+            //stream.close();
+            if (stream != null) {
+                stream.close();
+            }
 
             Log.d("MonAppli", "Telechargement dans : "+Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS));
             File myFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+music.getTitle()+".mp3");
