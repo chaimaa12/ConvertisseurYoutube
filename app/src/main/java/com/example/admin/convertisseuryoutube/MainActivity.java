@@ -13,6 +13,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,8 +35,10 @@ public class MainActivity extends Activity {
     private Button btnConvert;
     private EditText eTlink;
     private Music currentMusic;
+    private String idVideo;
 
     private static final String URL_MUSIC_CONVERT = "http://www.youtubeinmp3.com/fetch/?format=JSON&video=";
+    private static final String URL_FINAL ="https://www.youtube.com/watch?v=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         checkPermission();
         eTlink = (EditText) findViewById(R.id.eTlink);
+
 
         eTlink = (EditText) findViewById(R.id.eTlink);
         eTlink.setOnKeyListener(new View.OnKeyListener() {
@@ -65,8 +69,14 @@ public class MainActivity extends Activity {
         btnConvert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(!eTlink.getText().toString().equals("")){
-                    Convertmp3(eTlink.getText().toString());
+
+                    String lien = eTlink.getText().toString();
+                    String[] parts = lien.split("https://youtu.be/");
+                    String idVideo  = parts[1].trim();
+                    Convertmp3(URL_FINAL+idVideo);
+                    Log.d("ON EST LA", idVideo);
                     //startActivity(new Intent(MainActivity.this, ConversionActivity.class));
                     eTlink.setText("");
                 }else{
@@ -99,12 +109,12 @@ public class MainActivity extends Activity {
     private void Convertmp3(String textSearch){
         final ProgressDialog spinner = new ProgressDialog(this);
         spinner.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        spinner.setTitle("Recherche : "+ textSearch);
-        spinner.setMessage("Chargement en cours ...");
+        spinner.setTitle("Looking for : "+ textSearch);
+        spinner.setMessage("Loading ...");
         spinner.setCancelable(false);
         spinner.show();
 
-        String url= URL_MUSIC_CONVERT+ textSearch.replace(" ", "+");
+        String url= URL_MUSIC_CONVERT+ textSearch;
         DownloadJsonTask jsonTask = new DownloadJsonTask(this, spinner, new IOListener() {
             @Override
             public void IOListener(Music m) {
