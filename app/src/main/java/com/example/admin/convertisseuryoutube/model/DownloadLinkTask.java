@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.admin.convertisseuryoutube.ConversionActivity;
@@ -17,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by admin on 19/04/2017.
@@ -43,10 +46,11 @@ public class DownloadLinkTask extends AsyncTask<String, Void, Void> {
             int contentLength = conn.getContentLength();
 
             DataInputStream stream = new DataInputStream(aUrl.openStream());
-            byte[] buffer = new byte[Integer.parseInt(music.getLenght())];
+            byte[] buffer = new byte[contentLength];
             stream.readFully(buffer);
             stream.close();
 
+            Log.d("MonAppli", "Telechargement dans : "+Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS));
             File myFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+music.getTitle()+".mp3");
            // File myFile = new File(Environment.getRootDirectory()+"/Download"+music.getTitle()+".mp3");
             DataOutputStream fos = new DataOutputStream(new FileOutputStream(myFile));
@@ -60,8 +64,9 @@ public class DownloadLinkTask extends AsyncTask<String, Void, Void> {
         return null;
     }
 
+    @Override
+    protected void onPostExecute(Void aVoid) {
 
-
-
+    }
 }
    // private Bitmap download_music(String url) {}

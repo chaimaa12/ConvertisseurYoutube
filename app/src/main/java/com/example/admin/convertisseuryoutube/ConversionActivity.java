@@ -41,7 +41,6 @@ public class ConversionActivity extends Activity {
         btnDownload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     DownloadLinkTask linkTask = new DownloadLinkTask(currentMusic, path);
                     linkTask.execute(currentMusic.getLink());
                     // début du télechargement
