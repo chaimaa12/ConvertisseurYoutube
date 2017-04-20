@@ -60,11 +60,9 @@ public class ConversionActivity extends Activity {
                 return true;
             }
         });
-
     }
 
     public void setSelectedMusic(Music m){
-
         m.getTitle();
         titleVideo.setText(m.getTitle());
 
