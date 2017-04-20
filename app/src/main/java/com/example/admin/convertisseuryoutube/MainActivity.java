@@ -3,11 +3,16 @@ package com.example.admin.convertisseuryoutube;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +27,7 @@ import com.example.admin.convertisseuryoutube.model.IOListener;
 import com.example.admin.convertisseuryoutube.model.Music;
 
 import java.util.ArrayList;
+import java.util.jar.Manifest;
 
 public class MainActivity extends Activity {
 
@@ -35,6 +41,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        checkPermission();
         eTlink = (EditText) findViewById(R.id.eTlink);
 
         eTlink = (EditText) findViewById(R.id.eTlink);
@@ -109,6 +116,27 @@ public class MainActivity extends Activity {
         jsonTask.execute(url);
     }
 
+    private void checkPermission(){
+
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)){
+
+                new AlertDialog.Builder(this).setTitle("Access permission").setMessage("The App needs to access your local storage to download the file")
+                        .setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.INTERNET}, 1);
+
+                            }
+                        }).create().show();
+            }ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.INTERNET}, 1);
+
+        }
+
+    }
 
 }
 

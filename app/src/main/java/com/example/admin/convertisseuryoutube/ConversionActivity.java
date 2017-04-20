@@ -27,6 +27,9 @@ public class ConversionActivity extends Activity {
     private TextView titleVideo;
     private BottomNavigationView bottomNavigationView;
 
+    private String path = "/Downloads/";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +42,7 @@ public class ConversionActivity extends Activity {
                 @Override
                 public void onClick(View v) {
 
-                    DownloadLinkTask linkTask = new DownloadLinkTask(currentMusic.getLink());
+                    DownloadLinkTask linkTask = new DownloadLinkTask(currentMusic, path);
                     linkTask.execute(currentMusic.getLink());
                     // début du télechargement
             }
