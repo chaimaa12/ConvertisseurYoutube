@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.admin.convertisseuryoutube.ConversionActivity;
 import com.example.admin.convertisseuryoutube.R;
@@ -39,11 +40,12 @@ public class DownloadLinkTask extends AsyncTask<String, Void, Void> {
 
    private Music music;
    private String path;
+   private IOListener listener;
 
-
-    public DownloadLinkTask(Music music, String path) {
+    public DownloadLinkTask(Music music, String path, IOListener listener) {
         this.music = music;
         this.path = path;
+        this.listener =listener;
     }
 
     @Override
@@ -61,14 +63,14 @@ public class DownloadLinkTask extends AsyncTask<String, Void, Void> {
                 stream.close();
             }
 
-            Log.d("MonAppli", "TELECHARGERRRRRRRRRRR !");
+            Log.d("MonAppli", "TELECHARGER !");
             File myFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+music.getTitle()+".mp3");
            // File myFile = new File(Environment.getRootDirectory()+"/Download"+music.getTitle()+".mp3");
             DataOutputStream fos = new DataOutputStream(new FileOutputStream(myFile));
             fos.write(buffer);
             fos.flush();
             fos.close();
-
+            listener.IOListener(music);
         } catch (IOException e) {
             e.printStackTrace();
         }
